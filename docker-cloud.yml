@@ -1,0 +1,10 @@
+web:
+  # Replace username/repo:tag with your name and image details.
+  image: 'robbybro/typescript-webpack-node-docker-starter:latest'
+
+  # Redeploy web app in case if it's image is updated.
+  autoredeploy: true
+
+  # Expose port 80 of the container and map it to host's port 80
+  ports:
+    - '80:80'

@@ -4,6 +4,8 @@
   "description": "starter project for typescript/webpack/node development, with docker for CI",
   "main": "server.js",
   "devDependencies": {
+    "@types/jasmine": "^2.6.0",
+    "@types/karma": "^1.7.1",
     "@types/node": "^8.0.13",
     "@types/react": "^15.0.23",
     "@types/react-dom": "^15.5.0",
@@ -42,7 +44,10 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-cli": "^1.0.1",
     "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.4",
     "karma-requirejs": "^1.1.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-spec-reporter": "0.0.31",
     "karma-webpack": "^2.0.5",
     "node-libs-browser": "^1.0.0",
     "node-sass": "3.13.0",
@@ -83,7 +88,7 @@
     "underscore": "~1.8.3"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha",
+    "test": "karma start karma.conf.js",
     "build-prod": "webpack -p --config ./webpack.production.config.js",
     "start": "PORT=80 NODE_ENV=production forever server.js",
     "dev": "NODE_ENV=development nodemon -L --delay 2 server.js"

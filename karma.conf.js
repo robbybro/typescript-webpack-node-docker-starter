@@ -11,14 +11,15 @@ module.exports = function(config) {
     webpack: webpackConfig,
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine', 'requirejs'],
+    frameworks: ['jasmine'],
 
 
     // list of files / patterns to load in the browser
+    // files: ['./test/**/*.spec.js'],
     files: [
-      {pattern: 'test/**/*spec.js', included: true}
+      {pattern: 'test/**/*spec.ts', included: true},
+      {pattern: 'test/**/*spec.ts', included: true}
     ],
-
 
     // list of files to exclude
     exclude: [
@@ -28,14 +29,13 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'test/**/*spec.js': ['webpack'],
-      'test/**/*spec.jsx': ['webpack']
+        'test/**/*.ts': ['webpack', 'sourcemap'],
+        'test/**/*.tsx': ['webpack', 'sourcemap'],
     },
-
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['spec'],
 
 
     // web server port
@@ -57,7 +57,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 
     // Continuous Integration mode
@@ -66,6 +66,23 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity
+    concurrency: Infinity,
+
+    plugins: [
+      'karma-jasmine',
+      'karma-sourcemap-loader',
+      'karma-spec-reporter',
+      'karma-phantomjs-launcher',
+      'karma-webpack',
+    ],
+
+    mime: {
+        'text/x-typescript': ['ts','tsx'],
+    },
+
+    specReporter: {
+        maxLogLines: 5,
+        // suppressPassed: true,
+    },
   })
 }

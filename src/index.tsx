@@ -12,3 +12,5 @@ if (typeof module !== 'undefined') {
 }
 
 ReactDOM.render(<App />, app);
+
+export default app;

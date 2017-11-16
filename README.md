@@ -7,7 +7,7 @@
 * Build and Deploy with Github and Docker
 
 ## Running Dev Mode
-* `sudo npm start`
+* `sudo npm run dev`
     * starts node server using nodemon for restart-on-save functionality
     * pulls webpack config in and serves UI using webpack middleware and hot module reloading
 
@@ -17,7 +17,8 @@
 ## Production Workflow
 ### Building Prod
 * `webpack -p --config ./webpack.production.config.js`
-
+### Running Prod
+* `sudo npm start`
 
 ## Setting Up Docker
 * [configure docker-cloud to watch github and deploy new builds to digitalocean](https://medium.com/@trekhleb/docker-whale-in-digital-ocean-or-automated-continuous-delivery-flow-for-simple-projects-fbfb2c26bf14)

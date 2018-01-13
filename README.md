@@ -1,23 +1,25 @@
 # TypeScript Webpack Node Docker Starter
 ## Quick start any front end project with typescript, and webpack, and node. Build with and deploy with docker for continuous integration.
 
-* TypeScript UI, Node server
+* React / Redux UI written in TypeScript, Node server
 * Quick and easy development with Hot Module Reloader
 * Test server with Mocha and UI with Karma
 * Build and Deploy with Github and Docker
 
-## Running Dev Mode
-* `sudo npm run dev`
+## Install Dependencies
+* `npm i`
+## Run in Dev Mode
+* `npm run dev`
     * starts node server using nodemon for restart-on-save functionality
     * pulls webpack config in and serves UI using webpack middleware and hot module reloading
 
-## Running Tests
+## Run Tests
 * `npm run test`
 
 ## Production Workflow
-### Building Prod
-* `webpack -p --config ./webpack.production.config.js`
-### Running Prod
+### Build Prod
+* `npm run build-prod`
+### Run Prod
 * `sudo npm start`
 
 ## Setting Up Docker

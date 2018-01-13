@@ -1,62 +1,64 @@
 'use strict';
 
-process.on('uncaughtException', function (err) {
+import express from 'express';
+import middleware from './middleware';
+import morgan from 'morgan';
+import path from 'path';
+import webpack from 'webpack';
+import bodyParser from 'body-parser';
+
+process.on('uncaughtException', function(err) {
     console.error(
-        (new Date()).toUTCString(),
-        `uncaughtException: ${err.message}`
+        new Date().toUTCString(),
+        `uncaughtException: ${err.message}`,
     );
     console.error(err.stack);
     process.exit(1);
 });
 
-process.noDeprecation = true
+process.noDeprecation = true;
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 3000 : process.env.PORT;
-const _ = require('underscore');
-const axios = require('axios');
-const morgan = require('morgan');
-const path = require('path');
 
-const express = require('express');
 const app = express();
 const staticPath = path.join(__dirname, 'build');
-app.use(express.static(staticPath));
 app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static(staticPath));
 
 if (isDeveloping) {
-    console.log('developing!');
-    const webpack = require('webpack');
-    const webpackConfig = require('./webpack.config');
-    const compiler = webpack(webpackConfig);
-    app.use(require('webpack-dev-middleware')(compiler, {
-        noInfo: true,
-        publicPath: webpackConfig.output.publicPath,
-    }));
-
-    const bundlePath = path.join(staticPath, '/index.html');
-
-    console.log('bundlePath', bundlePath);
-
-    app.use(require('webpack-hot-middleware')(compiler, {
-        log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000
-    }));
-    app.get('/', function response(req, res) {
-        res.write(middleware.fileSystem.readFileSync(bundlePath));
-        res.end();
-    });
-}
-else {
-    const staticPath = path.join(__dirname, 'build');
-    app.use(express.static(staticPath));
+    const config = require('./webpack.config.dev');
+    const compiler = webpack(config);
+    app.use(express.static(path.resolve(__dirname, 'src')));
+    app.use(
+        require('webpack-dev-middleware')(compiler, {
+            noInfo: true,
+            publicPath: config.output.publicPath,
+            stats: {
+                assets: false,
+                colors: true,
+                version: false,
+                hash: false,
+                timings: false,
+                chunks: false,
+                chunkModules: false,
+            },
+        }),
+    );
+    app.use(require('webpack-hot-middleware')(compiler));
+} else {
+    app.use(express.static(path.resolve(__dirname, 'dist')));
 }
 
-app.get('/title', function (req, res) {
+app.get('/title', function(req, res) {
     return res.json({
-        title: 'Hello World!'
+        title: 'Hello World!',
     });
 });
 
-app.listen(port, function () {
+app.listen(port, function() {
     console.log('Project Running');
 });
+app.get('*', middleware);

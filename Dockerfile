@@ -18,7 +18,7 @@ RUN npm install
 COPY . .
 
 # build production app w/ webpack
-RUN webpack -p --config webpack.production.config.js
+RUN ["npm", "build-prod"]
 
 EXPOSE 80
 CMD ["npm", "start" ]

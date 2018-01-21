@@ -17,21 +17,28 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 
-const ControlledApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
-const render = () =>
-    ReactDOM.render(
+const render = (component) => {
+    const ControlledApp = connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(component);
+
+    return ReactDOM.render(
         <Provider store={store}>
             <ControlledApp />
         </Provider>,
         document.getElementById('app'),
     );
-
-render();
+}
+render(App);
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
     module.hot.accept('./reducers', () => {
         store.replaceReducer(require('./reducers/index').default);
     });
-    module.hot.accept('./components/App/App', () => render());
+    module.hot.accept('./components/App/App', () => {
+        const nextApp = require('./components/App/App');
+        render(nextApp.default);
+    });
 }

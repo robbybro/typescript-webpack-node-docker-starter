@@ -1,4 +1,4 @@
 {
-    "presets": ["stage-2", "es2015", "env", "react"],
+    "presets": ["stage-2", ["es2015", {"modules": false}], "env", "react"],
     "plugins": ["react-hot-loader/babel", "syntax-dynamic-import"]
 }
